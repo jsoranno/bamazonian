@@ -30,21 +30,29 @@ connection.connect(function(err) {
 
 var runSearch = function() {
     inquirer.prompt({
-        name: "action",
+        name: "ItemID",
         type: "input",
         message: "What is the ID number of the product you'd like to buy?",
     }).then(function(answer) {
-        var query = 'SELECT * FROM products WHERE ?'
+        // console.log(answer);
+        var query = 'SELECT * FROM products WHERE ?';
         connection.query(query, {ItemID: answer.ItemID}, function(err, res) {
-                console.log(res);
-            //runQuanity();
+                for (var i = 0; i <res.length; i++){
+                    console.log("Product: " + res[i].ProductName + " || Price: " + res[i].Price);
+                    var available = res[i].StockQuantity;
+                }
+            runQuanity();
         });
     });
 };
 
-// var runQuanity = function() {
-//     inquirer.prompt({
-//         name: "many",
-//         type: ""
-//     })
-// }
+var runQuanity = function() {
+    inquirer.prompt({
+        name: "StockQuantity",
+        type: "input",
+        message: "How many would you like to order?",
+    }).then(function(answer){
+            console.log(answer);
+            console.log("Great. We've place an order for you.");
+        })
+}
