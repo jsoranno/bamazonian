@@ -39,20 +39,23 @@ var runSearch = function() {
         connection.query(query, {ItemID: answer.ItemID}, function(err, res) {
                 for (var i = 0; i <res.length; i++){
                     console.log("Product: " + res[i].ProductName + " || Price: " + res[i].Price);
-                    var available = res[i].StockQuantity;
+                    //var available = res[i].StockQuantity;
                 }
-            runQuanity();
+            runQuantity();
         });
     });
 };
 
-var runQuanity = function() {
+var runQuantity = function () {
     inquirer.prompt({
         name: "StockQuantity",
         type: "input",
         message: "How many would you like to order?",
-    }).then(function(answer){
-            console.log(answer);
-            console.log("Great. We've place an order for you.");
-        })
-}
+    }).then(function (answer) {
+        //console.log(answer);
+        var query = 'UPDATE people SET StockQuantity=answer, WHERE ItemID=answer.ItemID';
+        connection.query(query, answer, function (err, res) {
+            console.log("Great. We've placed an order for you.");
+        });
+    });
+};
